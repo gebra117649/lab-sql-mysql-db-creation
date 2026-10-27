@@ -71,11 +71,10 @@ Relations between the Entities:
 	- a model record (car_model) can be assigned to multiple car (model_id)
 	- a car can be assigned to only one model
 
-
-- branch <--> salesperson
+- salesperson <--> branch
 	- 1:N
 	- foreign_key: 
-		- salesperson.branch_id --> branch.branch.id
+		- salesperson.branch_id --> branch.branch_id
 	- multiple salesperson can work at a single branch
 	- each salesperson is assigned to only one primary branch
 
@@ -103,7 +102,7 @@ Relations between the Entities:
 - car <--> invoice
 	- 1:1
 	- foreign_key:
-		- invoice.car_id --> car.car_id
+		- invoice.car_id --> car.car_id (with UNIQUE constraint on `invoice.car_id`)
 	- a unique car can only sell once, which means only has one invoice
 
 
@@ -112,7 +111,7 @@ Relations between the Entities:
 |car_model   | 1:N   | car   | car.model_id  | There are multiple units of a single model in stock.   |
 |branch  | 1:N  | salesperson   | salesperson.branch_id   | Several salespeople work in a shop.  |
 |customer | 1:N  | customer_address   | customer_address.customer_id  | A customer can have multiple addresses (billing/shipping).  |
-|customer | 1:N  | invoice  | invoice.invoice_id  |  A customer may purchase multiple cars over time. |
+|customer | 1:N  | invoice  | invoice.customer_id  |  A customer may purchase multiple cars over time. |
 |salesperson   | 1:N   |invoice   |invoice.staff_id | A salesperson carries out multiple sales/invoices.  |
 |car | 1:1   |invoice   |invoice.car_id   | A specific car is sold exactly once.  |
 
