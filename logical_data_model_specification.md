@@ -4,7 +4,7 @@ Entities:
 	- car_id / primary_key / int / auto_increment
 	- VIN (vehicle identity number) / varchar / unique / not_null
 	- model_id (car_model.model_id) foreign_key / not null
-	- year / int / not null
+	- year / year / not null
 	- color / varchar
 	- list_price / float /not_null
 
@@ -17,7 +17,8 @@ Entities:
 	- transmission (manual, automata)/ varchar
 
 - customer
-	- customer_id / primary_key / int / auto_increment
+	- id / int / primary_key / auto_increment
+	- customer_id / varchar / not_null / a specific customer account number
 	- first_name / varchar / not_null
 	- last_name / varchar / not_null
 	- email / varchar / not_null
@@ -35,6 +36,7 @@ Entities:
 	- zip_code / varchar / not_null
 
 - salesperson
+	- id / int / primary_key / auto_increment
 	- staff_id / varchar / unique primary_key (I assume this comes from an HR database.)
 	- first_name / varchar / not_null
 	- last_name / varchar / not_null
@@ -43,7 +45,8 @@ Entities:
 	- store/branch_id (branch.branch_id) foreign_key
 
 - branch (stores and branches)
-	- branch_id primary_key, int
+	- id / int / primary_key / auto_increment
+	- branch_id primary_key, int / auto_increment
 	- branch_name / varchar /not_null
 	- country / varchar / not null
 	- state / varchar
@@ -52,7 +55,8 @@ Entities:
 	- zip_code / varchar / not_null
 
 - invoice
-	- invoice_nr primary_key / varchar / not_null
+	- id / int / primary_key / auto_increment
+	- invoice_nr unique / varchar / not_null
 	- date / date / not_null
 	- car_id (car.car_id) foreign_key
 	- customer_id (customer.customer_id) foreign_key
