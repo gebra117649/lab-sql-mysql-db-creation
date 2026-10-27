@@ -5,7 +5,7 @@
 USE lab_mysql;
 
 -- -----------------------------------------------------
--- 1. CAR_MODEL (Populating the model catalog)
+-- 1. CAR_MODEL (Uploading the model catalog)
 -- -----------------------------------------------------
 INSERT INTO `car_model` (`model_id`, `manufacturer`, `model`, `fuel_type`, `body_type`, `transmission`) VALUES
 (1, 'Volkswagen', 'Tiguan', 'Diesel', 'SUV', 'Automatic'),
@@ -16,7 +16,8 @@ INSERT INTO `car_model` (`model_id`, `manufacturer`, `model`, `fuel_type`, `body
 (6, 'Volvo', 'V60 Cross Country', 'Gasoline', 'Wagon', 'Automatic');
 
 -- -----------------------------------------------------
--- 2. CAR (Recording of physical vehicles)
+-- 2. CAR (Recording physical vehicles)
+-- Note: Based on the sample data in the task description, the VINs for car 5 and car 6 are identical!
 -- -----------------------------------------------------
 INSERT INTO `car` (`car_id`, `VIN`, `model_id`, `year`, `color`, `list_price`) VALUES
 (1, '3K096I98581DHSNUP', 1, 2019, 'Blue', 32000.00),
@@ -24,15 +25,15 @@ INSERT INTO `car` (`car_id`, `VIN`, `model_id`, `year`, `color`, `list_price`) V
 (3, 'RKXVNNIHLVVZOUB4M', 3, 2018, 'White', 21000.00),
 (4, 'HKNDGS7CU31E9Z7JW', 4, 2018, 'Silver', 29000.00),
 (5, 'DAM41UDN3CHU2WVF6', 5, 2019, 'Gray', 38000.00),
-(6, 'DAM41UDN3CHU2WVF7', 6, 2019, 'Gray', 41000.00);
+(6, 'DAM41UDN3CHU2WVF6', 6, 2019, 'Gray', 41000.00);
 
 -- -----------------------------------------------------
--- 3. CUSTOMER (Customer master data)
+-- 3. CUSTOMER (Customer Master Data)
 -- -----------------------------------------------------
 INSERT INTO `customer` (`id`, `customer_id`, `first_name`, `last_name`, `email`, `primary_phone`, `additional_phone`) VALUES
-(1, '10001', 'Pablo', 'Picasso', 'pablo.picasso@art.es', '+34 636 17 63 82', NULL),
-(2, '20001', 'Abraham', 'Lincoln', 'a.lincoln@whitehouse.gov', '+1 305 907 7086', NULL),
-(3, '30001', 'Napoléon', 'Bonaparte', 'napoleon.bonaparte@empereur.fr', '+33 1 79 75 40 00', NULL);
+(1, '10001', 'Pablo', 'Picasso', '-', '+34 636 17 63 82', NULL),
+(2, '20001', 'Abraham', 'Lincoln', '-', '+1 305 907 7086', NULL),
+(3, '30001', 'Napoléon', 'Bonaparte', '-', '+33 1 79 75 40 00', NULL);
 
 -- -----------------------------------------------------
 -- 4. CUSTOMER_ADDRESS (Recording customer addresses)
@@ -44,7 +45,6 @@ INSERT INTO `customer_address` (`address_id`, `customer_id`, `address_type`, `co
 
 -- -----------------------------------------------------
 -- 5. BRANCH (Branches / Stores)
--- (Generated from the 'store' fields of the salespeople)
 -- -----------------------------------------------------
 INSERT INTO `branch` (`id`, `branch_id`, `branch_name`, `country`, `state`, `city`, `street_address`, `zip_code`) VALUES
 (1, 'BR-MAD', 'Madrid Branch', 'Spain', 'Madrid', 'Madrid', 'Gran Vía 42', '28013'),
@@ -57,7 +57,7 @@ INSERT INTO `branch` (`id`, `branch_id`, `branch_name`, `country`, `state`, `cit
 (8, 'BR-SAO', 'São Paulo Branch', 'Brazil', 'São Paulo', 'São Paulo', 'Av. Paulista 1000', '01310-100');
 
 -- -----------------------------------------------------
--- 6. SALESPERSON (Adding salespeople)
+-- 6. SALESPERSON (Uploading salespeople)
 -- -----------------------------------------------------
 INSERT INTO `salesperson` (`id`, `staff_id`, `first_name`, `last_name`, `email`, `phone_number`, `branch_id`) VALUES
 (1, '00001', 'Petey', 'Cruiser', 'petey.cruiser@dealership.com', '+34 912 345 678', 'BR-MAD'),
@@ -74,48 +74,5 @@ INSERT INTO `salesperson` (`id`, `staff_id`, `first_name`, `last_name`, `email`,
 -- -----------------------------------------------------
 INSERT INTO `invoice` (`id`, `invoice_nr`, `date`, `car_id`, `customer_id`, `staff_id`, `sale_price`) VALUES
 (1, '852399038', '2018-08-22', 1, '20001', '00003', 31500.00),
-(2, '331166526', '2018-12-31', 3, '10001', '00005', 20500.00),
+(2, '731166526', '2018-12-31', 3, '10001', '00005', 20500.00),
 (3, '271135104', '2019-01-22', 2, '30001', '00007', 24000.00);
-
-
--- -----------------------------------------------------
--- 8. Queries for verification
--- -----------------------------------------------------
-
--- 1. Check the sold cars, linked to their models
-SELECT 
-    c.car_id, 
-    c.VIN, 
-    cm.manufacturer, 
-    cm.model, 
-    c.color, 
-    c.list_price
-FROM car c
-JOIN car_model cm ON c.model_id = cm.model_id;
-
--- 2. Verify the invoices with the clients and salespeople
-SELECT 
-    i.invoice_nr, 
-    i.date, 
-    CONCAT(cust.first_name, ' ', cust.last_name) AS customer_name,
-    CONCAT(sp.first_name, ' ', sp.last_name) AS salesperson_name,
-    i.sale_price
-FROM invoice i
-JOIN customer cust ON i.customer_id = cust.customer_id
-JOIN salesperson sp ON i.staff_id = sp.staff_id;
-
--- 3. Checking the number of records
-
-SELECT 'car_model' AS table_name, COUNT(*) AS total_rows FROM car_model
-UNION ALL
-SELECT 'car', COUNT(*) FROM car
-UNION ALL
-SELECT 'customer', COUNT(*) FROM customer
-UNION ALL
-SELECT 'customer_address', COUNT(*) FROM customer_address
-UNION ALL
-SELECT 'branch', COUNT(*) FROM branch
-UNION ALL
-SELECT 'salesperson', COUNT(*) FROM salesperson
-UNION ALL
-SELECT 'invoice', COUNT(*) FROM invoice;
