@@ -19,6 +19,7 @@ INSERT INTO `car_model` (`model_id`, `manufacturer`, `model`, `fuel_type`, `body
 -- 2. CAR (Recording physical vehicles)
 -- Note: Based on the sample data in the task description, the VINs for car 5 and car 6 are identical!
 -- -----------------------------------------------------
+
 INSERT INTO `car` (`car_id`, `VIN`, `model_id`, `year`, `color`, `list_price`) VALUES
 (1, '3K096I98581DHSNUP', 1, 2019, 'Blue', 32000.00),
 (2, 'ZM8G7BEUQZ97IH46V', 2, 2019, 'Red', 24500.00),
@@ -30,10 +31,11 @@ INSERT INTO `car` (`car_id`, `VIN`, `model_id`, `year`, `color`, `list_price`) V
 -- -----------------------------------------------------
 -- 3. CUSTOMER (Customer Master Data)
 -- -----------------------------------------------------
+
 INSERT INTO `customer` (`id`, `customer_id`, `first_name`, `last_name`, `email`, `primary_phone`, `additional_phone`) VALUES
-(1, '10001', 'Pablo', 'Picasso', '-', '+34 636 17 63 82', NULL),
-(2, '20001', 'Abraham', 'Lincoln', '-', '+1 305 907 7086', NULL),
-(3, '30001', 'Napoléon', 'Bonaparte', '-', '+33 1 79 75 40 00', NULL);
+(1, '10001', 'Pablo', 'Picasso', NULL, '+34 636 17 63 82', NULL),
+(2, '20001', 'Abraham', 'Lincoln', NULL, '+1 305 907 7086', NULL),
+(3, '30001', 'Napoléon', 'Bonaparte', NULL, '+33 1 79 75 40 00', NULL);
 
 -- -----------------------------------------------------
 -- 4. CUSTOMER_ADDRESS (Recording customer addresses)
